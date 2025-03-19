@@ -28,6 +28,12 @@ window.addEventListener("resize", (_) => {
   renderer.setPixelRatio(Math.min(2, devicePixelRatio))
 })
 
+window.addEventListener("dblclick", () => {
+  document.fullscreenElement
+    ? document.exitFullscreen()
+    : canvas.dom.requestFullscreen()
+})
+
 /*
  * Scene & Camera
  */

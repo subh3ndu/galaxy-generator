@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import Stats, { Panel } from "stats.js"
+import Stats from "stats.js"
 import { GUI } from "lil-gui"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
 import { Timer } from "three/addons/misc/Timer.js"
@@ -41,6 +41,8 @@ const parameters = {
   colorInside: "#ff6030",
   colorOutside: "#1b3984",
 }
+
+//#region Debug
 gui
   .add(parameters, "count")
   .min(100)
@@ -93,6 +95,7 @@ gui
 gui.addColor(parameters, "colorInside").onFinishChange(generateGalaxy)
 
 gui.addColor(parameters, "colorOutside").onFinishChange(generateGalaxy)
+//#endregion
 
 let geometry = null,
   material = null,
@@ -164,6 +167,7 @@ generateGalaxy()
 /*
  * Renderer & Animation
  */
+
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas.dom,
 })

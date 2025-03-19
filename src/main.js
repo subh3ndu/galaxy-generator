@@ -29,7 +29,7 @@ window.addEventListener("resize", (_) => {
 })
 
 window.addEventListener("dblclick", () => {
-  document.fullscreenElement
+  document.fullscreenElement || document.webkitFullscreenElement
     ? document.exitFullscreen()
     : canvas.dom.requestFullscreen()
 })

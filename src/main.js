@@ -1,12 +1,12 @@
 import * as THREE from "three"
-import Stats from "stats.js"
+import Stats, { Panel } from "stats.js"
 import { GUI } from "lil-gui"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
 import { Timer } from "three/addons/misc/Timer.js"
 import "./style.css"
 
 /*
- * Dimensions & Resize
+ * Scene, Camera & Controls
  */
 
 const canvas = {
@@ -15,28 +15,6 @@ const canvas = {
   dom: document.getElementById("webgl"),
 }
 canvas.aspect = canvas.width / canvas.height
-
-window.addEventListener("resize", (_) => {
-  canvas.width = innerWidth
-  canvas.height = innerHeight
-  canvas.aspect = canvas.width / canvas.height
-
-  camera.aspect = canvas.aspect
-  camera.updateProjectionMatrix()
-
-  renderer.setSize(canvas.width, canvas.height)
-  renderer.setPixelRatio(Math.min(2, devicePixelRatio))
-})
-
-window.addEventListener("dblclick", () => {
-  document.fullscreenElement || document.webkitFullscreenElement
-    ? document.exitFullscreen()
-    : canvas.dom.requestFullscreen()
-})
-
-/*
- * Scene & Camera
- */
 
 const scene = new THREE.Scene()
 // scene.add(new THREE.AxesHelper(1))
@@ -193,9 +171,9 @@ renderer.setSize(canvas.width, canvas.height)
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
 
 const timer = new Timer()
+
 const stats = new Stats()
 stats.showPanel(0)
-
 document.body.appendChild(stats.dom)
 
 renderer.setAnimationLoop((ts) => {
@@ -209,4 +187,32 @@ renderer.setAnimationLoop((ts) => {
   controls.update()
   renderer.render(scene, camera)
   stats.end()
+})
+
+/*
+ * Resize & Fullscreen
+ */
+
+window.addEventListener("resize", (_) => {
+  canvas.width = innerWidth
+  canvas.height = innerHeight
+  canvas.aspect = canvas.width / canvas.height
+
+  camera.aspect = canvas.aspect
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(canvas.width, canvas.height)
+  renderer.setPixelRatio(Math.min(2, devicePixelRatio))
+})
+
+window.addEventListener("dblclick", () => {
+  if (canvas.dom.requestFullscreen)
+    document.fullscreenElement
+      ? document.exitFullscreen()
+      : canvas.dom.requestFullscreen()
+
+  if (canvas.dom.requestWebkitFullscreen)
+    document.webkitFullscreenElement
+      ? document.exitWebkitFullscreen()
+      : canvas.dom.requestWebkitFullscreen()
 })
